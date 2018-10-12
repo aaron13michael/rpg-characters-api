@@ -102,4 +102,8 @@ helloflaskenv/
 /site
 
 # mypy
+<<<<<<< HEAD
 .mypy_cache/
+=======
+.mypy_cache/
+>>>>>>> 5dd33682ba503af8c8720cea3941973563a4e877
