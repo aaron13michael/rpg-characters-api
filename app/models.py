@@ -1,6 +1,8 @@
 from app import db
 
 class Character(db.Model):
+
+    __tablename__ = "Characters"
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
@@ -32,15 +34,4 @@ class Character(db.Model):
 
     def __repr__(self):
         return "<Character: {}>".format(self.name)
-
-class EarthboundCharacter(Character):
-
-    __tablename__='Earthbound_Characters'
-
-    psi = db.Column(db.Integer)
-
-    def __init__(self, name, hp, attack, defense, psi):
-        super(self, name, hp, attack, defense)
-        self.psi = psi
-
 
