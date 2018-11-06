@@ -51,25 +51,21 @@ class CharacterTestCase(unittest.TestCase):
 
     def test_character_can_be_edited(self):
         """Test API can edit an existing bucketlist. (PUT request)"""
-        response = self.client().post(
-            '/characters/',
-            data=self.Character2)
-        response = self.client().put(
+        response = self.client().post('/characters/', data=self.Character2)
+        response = self.client().patch(
             '/characters/1',
             data={  'name' : 'Paula',
                     'hp' : 110,
                     'attack' : 22,
                     'defense' : 20
-        })
+            })
         self.assertEqual(response.status_code, 200)
         result = self.client().get('/characters/1')
         self.assertIn('22', repr(result.data))
     
     def test_character_deletion(self):
-        response = self.client().post(
-            '/characters/',
-            data=self.Character2)
-        response = self.client().delete('/character/1')
+        response = self.client().post('/characters/', data=self.Character2)
+        response = self.client().delete('/characters/1')
         self.assertEqual(response.status_code, 200)
         # Test to see if it exists, should return a 404
         response = self.client().delete('/character/1')

@@ -58,5 +58,64 @@ def create_app(config_name):
             })
             response.status_code = 400
             return response
+    
+    @app.route('/characters/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
+    def character_detail(id, **kwargs):
+        # get a character from it's ID
+        character = Character.query.filter_by(id=id).first()
+        if not character:
+            # Raise an HTTPException with a 404
+            abort(404)
+        if request.method == "GET":
+            obj = {
+                'id' : character.id,
+                'name' : character.name,
+                'hp' : character.hp,
+                'attack' : character.attack,
+                'defense' : character.defense,
+                'date_created' : character.date_created,
+                'date_modified' : character.date_modified
+            }
+            response = jsonify(obj)
+            response.status_code = 200
+            return response
+        elif request.method == "DELETE":
+            character.delete()
+            return {
+                'message' : "character {0} ({1}) deleted successfully".format(character.name, character.id)
+            }, 200
+        elif request.method == "PATCH":
+            # PATCH values are optional
+            n_name = repr(request.data.get('name', ''))
+            character.name = n_name
+            try:
+                
+                character.hp = int(request.data.get('hp', character.hp))
+                character.attack = int(request.data.get('attack', character.attack))
+                character.defense = int(request.data.get('defense', character.defense))
+            except ValueError as e:
+                bad_value = str(e).split(":")[-1]
+                return {
+                    'message' : "stat value {} is invalid".format(bad_value)
+                }, 400
+            character.save()
+            obj = {
+                'id' : character.id,
+                'name' : character.name,
+                'hp' : character.hp,
+                'attack' : character.attack,
+                'defense' : character.defense,
+                'date_created' : character.date_created,
+                'date_modified' : character.date_modified
+            }
+            response = jsonify(obj)
+            response.status_code = 200
+            return response
+        else:
+            response = jsonify({
+                'message' : "Method {} not allowed".format(request.method)
+            })
+            response.status_code = 400
+            return response
 
     return app
