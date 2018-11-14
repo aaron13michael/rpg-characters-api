@@ -11,16 +11,21 @@ class CharacterTestCase(unittest.TestCase):
         self.Character = {
             "name" : 'Ness',
             "hp" : 100,
+            'mana' : 45,
             "attack" : 24,
-            "defense" : 18
+            "defense" : 18,
+            'intelligence' : 20,
+            'luck' : 16
         }
         self.Character2 = {  
             'name' : 'Paula',
             'hp' : 110,
+            'mana' : 60,
             'attack' : 20,
-            'defense' : 20
+            'defense' : 20,
+            'intelligence' : 22,
+            'luck' : 12
         } 
-
         # binds the app to the current context
         with self.app.app_context():
             # create all tables

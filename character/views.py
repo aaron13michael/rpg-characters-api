@@ -11,8 +11,11 @@ class CharacterListCreate():
                 'id' : c.id,
                 'name' : c.name,
                 'hp' : c.hp,
+                'mana' : c.mana,
                 'attack' : c.attack,
                 'defense' : c.defense,
+                'intelligence' : c.intelligence,
+                'luck' : c.luck,
                 'date_created' : c.date_created,
                 'date_modified' : c.date_modified
             }
@@ -24,18 +27,29 @@ class CharacterListCreate():
     @staticmethod
     def post():
         name = request.data.get('name', None)
-        hp = int(request.data.get('hp', ''))
-        attack = int(request.data.get('attack', ''))
-        defense = int(request.data.get('defense', ''))
+        try:
+            hp = int(request.data.get('hp', ''))
+            mana = int(request.data.get('mana', ''))
+            attack = int(request.data.get('attack', ''))
+            defense = int(request.data.get('defense', ''))
+            intelligence = int(request.data.get('intelligence', ''))
+            luck = int(request.data.get('luck', ''))
+        except ValueError:
+            return {
+            'message' : "Invalid stat data. All stats must be integers"
+        }, 400
         if name is not None:
-            character = Character(name=name, hp=hp, attack=attack, defense=defense)
+            character = Character(name=name, hp=hp, mana=mana, attack=attack, defense=defense, intelligence=intelligence, luck=luck)
             character.save()
             response = jsonify({
                 'id' : character.id,
                 'name' : character.name,
                 'hp' : character.hp,
+                'mana' : character.mana,
                 'attack' : character.attack,
                 'defense' : character.defense,
+                'intelligence' : character.intelligence,
+                'luck' : character.luck,
                 'date_created' : character.date_created,
                 'date_modified' : character.date_modified
             })
