@@ -84,22 +84,18 @@ class CharacterRetrieveUpdateDelete():
         # PATCH values are optional
         n_name = repr(request.data.get('name', ''))
         character.name = n_name
-        try:
-            character.hp = int(request.data.get('hp', character.hp))
-            character.attack = int(request.data.get('attack', character.attack))
-            character.defense = int(request.data.get('defense', character.defense))
-        except ValueError as e:
-            bad_value = str(e).split(":")[-1]
-            return {
-                'message' : "stat value {} is invalid".format(bad_value)
-            }, 400
         character.save()
         obj = {
             'id' : character.id,
             'name' : character.name,
             'hp' : character.hp,
+            'mana' : character.mana,
             'attack' : character.attack,
             'defense' : character.defense,
+            'intelligence' : character.intelligence,
+            'luck' : character.luck,
+            'level' : character.level,
+            'Exp to next level' : character.expToNext,
             'date_created' : character.date_created,
             'date_modified' : character.date_modified
         }

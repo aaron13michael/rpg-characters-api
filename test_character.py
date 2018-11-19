@@ -59,14 +59,10 @@ class CharacterTestCase(unittest.TestCase):
         response = self.client().post('/characters/', data=self.Character2)
         response = self.client().patch(
             '/characters/1',
-            data={  'name' : 'Paula',
-                    'hp' : 110,
-                    'attack' : 22,
-                    'defense' : 20
-            })
+            data={  'name' : 'Ana'})
         self.assertEqual(response.status_code, 200)
         result = self.client().get('/characters/1')
-        self.assertIn('22', repr(result.data))
+        self.assertIn('Ana', repr(result.data))
     
     def test_character_deletion(self):
         response = self.client().post('/characters/', data=self.Character2)
@@ -75,6 +71,23 @@ class CharacterTestCase(unittest.TestCase):
         # Test to see if it exists, should return a 404
         response = self.client().delete('/character/1')
         self.assertEqual(response.status_code, 404)
+    
+    def test_character_level_up(self):
+        lvlData = [
+            {
+                'id' : 1,
+                'exp' : 45
+            },
+        ]
+        response = self.client().post('/characters/', data=self.Character)
+        response = self.client().post('/characters/addexp/', data=lvlData)
+        result_in_json = json.loads(response.data.decode('utf-8').replace("'", "\""))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(result_in_json['level'], 2)
+
+        toNext = result_in_json['Exp to next level']
+        self.assertTrue(toNext >= 45 and toNext <= 49)
+
 
     def tearDown(self):
         """teardown all initialized variables."""
