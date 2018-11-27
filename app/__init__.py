@@ -7,7 +7,7 @@ db = SQLAlchemy()
 
 def create_app(config_name):
     from character.models import Character
-    from character.views import CharacterListCreate, CharacterRetrieveUpdateDelete
+    from character.views import CharacterListCreate, CharacterRetrieveUpdateDelete, CharacterLevelUp
     app = FlaskAPI(__name__, instance_relative_config=True)
     app.config.from_object(app_config['development'])
     app.config.from_pyfile('config.py')
@@ -36,3 +36,7 @@ def create_app(config_name):
             return CharacterRetrieveUpdateDelete.patch(request, character)
 
     return app
+
+    @app.route('/characters/addexp/', methods=['POST'])
+    def character_level_up():
+        return CharacterLevelUp.post()
