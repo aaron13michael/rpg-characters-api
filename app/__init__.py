@@ -35,8 +35,8 @@ def create_app(config_name):
         elif request.method == "PATCH":
             return CharacterRetrieveUpdateDelete.patch(request, character)
 
-    return app
-
     @app.route('/characters/addexp/', methods=['POST'])
     def character_level_up():
         return CharacterLevelUp.post()
+
+    return app
