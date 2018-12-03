@@ -6,8 +6,8 @@ from flask import request, jsonify, abort
 db = SQLAlchemy()
 
 def create_app(config_name):
-    from character.models import Character
-    from character.views import CharacterListCreate, CharacterRetrieveUpdateDelete, CharacterLevelUp
+    from app.models import Character
+    from app.views import CharacterListCreate, CharacterRetrieveUpdateDelete, CharacterLevelUp
     app = FlaskAPI(__name__, instance_relative_config=True)
     app.config.from_object(app_config['development'])
     app.config.from_pyfile('config.py')

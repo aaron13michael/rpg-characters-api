@@ -1,11 +1,15 @@
-from character.models import Character
+from app.models import Character
 from flask import request, jsonify, abort
 
 class CharacterListCreate():
     @staticmethod
     def get():
         characters = Character.get_all()
-        results =[]
+        if len(characters) == 0:
+            response = jsonify([])
+            response.status_code = 200
+            return response
+        results = []
         for c in characters:
             obj = makeCharacterObject(c)
             results.append(obj)
@@ -64,8 +68,9 @@ class CharacterLevelUp():
     @staticmethod
     def post():
         try:
-            id = int(request.data.get('id', ''))
-            exp = int(request.data.get('exp', ''))
+            print(request.data)
+            id = int(request.data[0].get('id', ''))
+            exp = int(request.data[0].get('exp', ''))
         except ValueError as e:
             return {
                 'message' : 'invalid values passed id: {0}, exp: {1}. Values must be integers'.format(request.data.get('id', '<empty>'), request.data.get('exp', '<empty>'))

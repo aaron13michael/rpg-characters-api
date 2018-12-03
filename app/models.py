@@ -2,7 +2,6 @@ from app import db
 import random
 
 class Character(db.Model):
-
     __tablename__ = "Characters"
     # identifiers
     id = db.Column(db.Integer, primary_key=True)

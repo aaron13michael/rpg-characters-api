@@ -73,12 +73,7 @@ class CharacterTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
     
     def test_character_level_up(self):
-        lvlData = json.dumps([
-            {
-                'id' : 1,
-                'exp' : 45
-            },
-        ])
+        lvlData = json.dumps([{ "id": 1,"exp": 45}])
         response = self.client().post('/characters/', data=self.Character)
         response = self.client().post('/characters/addexp/', data=lvlData)
         print(response)
